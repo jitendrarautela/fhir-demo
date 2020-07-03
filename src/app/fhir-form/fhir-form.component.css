@@ -1,3 +1,77 @@
 .container{
     padding-top: 60px;
 }
+.patient-demo{
+    content: "";
+    display: table;
+    padding-top: 30px;
+}
+.patient-condition{
+    padding-top: 30px;
+}
+.patient-mrn,.patient-id,.patient-name,.patient-dob,.patient-gender{
+    width: 50%;
+    float: left;
+    padding: 0.75rem;
+}
+.patient-dob,.patient-name,.patient-gender{
+    padding-left: 12px;
+}
+.demographics,.conditions,.search{
+    padding: 0.75rem;
+    font-weight: bold;
+    font-size: 24px;
+    text-align: center;
+    color:#337ab7;
+}
+.table > thead > tr{
+    background: black;
+    color: white;
+}
+.sorter{
+    cursor: pointer;
+}
+span{
+    font-weight: 600;
+}
+.table > tbody > tr > td{
+    font-weight: 600;
+}
+select, select > option {
+    font-weight: 600;
+}
+.loader{
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 1140px;
+    text-align: center;
+    padding-top: 200px;
+}
+
+.th-condition{
+    float: left;
+}
+
+.arrow-up {
+    width: 0; 
+    height: 0; 
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid white;
+    float: left;
+    padding-top: 8px;
+    margin-left: 8px;
+}
+.arrow-down {
+    width: 0; 
+    height: 0; 
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid white;
+    float: left;
+    margin-left: 8px;
+    margin-top: 12px;
+}

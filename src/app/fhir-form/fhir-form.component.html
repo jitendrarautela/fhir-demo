@@ -1,54 +1,79 @@
 <div class="wrapper">
-    <div class="container">
+    <div class="container" *ngIf="patients.length > 0">
         <div class="patient-dropdown">
+            <div class="search">
+                <span>Search Patient</span>
+            </div>
             <div class="form-group">
                     <select class="form-control" (change)="selectPatient($event.target.value)">
-                        <option *ngFor="let patient of patient " [value]="patient.resource.id">
-                                {{ patient.resource.name[0].given[0] }} {{patient.resource.name[0].family}}
+                        <option *ngFor="let patient of patients" [value]="patient.resource.id">
+                                {{ getFullName(patient.resource) }}
                         </option>
                     </select>
             </div>
         </div>
         <div class="patient-demo">
             <div class="details" *ngIf="selectedPatient !== undefined">
-                <div>
-                    <span>Name: {{ selectedPatient.name[0].prefix[0] }} {{ selectedPatient.name[0].given[0] }} {{selectedPatient.name[0].family}}</span><br>
+                <div class="demographics">
+                    <span>Patient's Demographic Data</span>
                 </div>
-                <div>
+                <div class="patient-name">
+                    <span>Name: {{ getFullName(selectedPatient) }}</span><br>
+                </div>
+                <div class="patient-id">
                     <span>ID : {{ selectedPatient.id }}</span><br>
                 </div>
-                <div>
+                <div class="patient-dob">
                     <span>DOB: {{ selectedPatient.birthDate | date}}</span><br>
                 </div>
-                <div>
-                    <span>Gender: {{ selectedPatient.gender | titlecase}}</span><br>
-                </div>
-                <div>
+                <div class="patient-mrn">
                     <div *ngFor="let data of selectedPatient.identifier">
                         <span *ngIf="data.type !== undefine && data.type.text === 'Medical Record Number'">MRN: {{ data.value }}</span>
                     </div>
                 </div>
+                <div class="patient-gender">
+                    <span>Gender: {{ selectedPatient.gender | titlecase}}</span><br>
+                </div>
             </div>
         </div>
         <div class="patient-condition" *ngIf="selectedPatient !== undefined">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Condition</th>
-                        <th>Clinical Status</th>
-                        <th>Verification Status</th>
-                        <th>Onset Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let condition of patientCondition">
-                        <td>{{ condition.code.text }}</td>
-                        <td>{{ condition.clinicalStatus.coding[0].code }}</td>
-                        <td>{{ condition.verificationStatus.coding[0].code }}</td>
-                        <td>{{ condition.onsetDateTime | date}}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="conditions">
+                <span>Conditions</span>
+            </div>
+            <div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th (click)="sortByCondition()" class="sorter">
+                                <div class="th-condition">Condition</div>
+                                <div  [ngClass]="{'arrow-up': conditionSorter === true, 'arrow-down': conditionSorter === false}"></div>
+                            </th>
+                            <th (click)="sortByStatus()" class="sorter">
+                                <div class="th-condition">Clinical Status</div>
+                                <div  [ngClass]="{'arrow-up': statusSorter === true, 'arrow-down': statusSorter === false}"></div>
+                            </th>
+                            <th>Verification Status</th>
+                            <th (click)="sortByDate()" class="sorter">
+                                <div class="th-condition">Onset Date</div>
+                                <div  [ngClass]="{'arrow-up': dateSorter === true, 'arrow-down': dateSorter === false}"></div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let condition of patientCondition">
+                            <td>{{ condition.code.text }}</td>
+                            <td>{{ condition.clinicalStatus.coding[0].code }}</td>
+                            <td>{{ condition.verificationStatus.coding[0].code }}</td>
+                            <td>{{ condition.onsetDateTime | date}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
+    </div>
+    <div class="loader" *ngIf="patients.length === 0">
+            <div class="spinner-border" style="width: 11rem; height: 11rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
     </div>
 </div>
